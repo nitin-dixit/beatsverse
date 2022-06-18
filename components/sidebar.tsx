@@ -1,0 +1,130 @@
+import {
+  Box,
+  Divider,
+  LinkBox,
+  LinkOverlay,
+  List,
+  ListIcon,
+  ListItem,
+} from "@chakra-ui/react";
+import Image from "next/image";
+import Link from "next/link";
+import { BiSearch, BiLibrary, BiHome } from "react-icons/bi";
+import { RiPlayListAddFill } from "react-icons/ri";
+import { MdFavorite } from "react-icons/md";
+import logo from "../public/logo.png";
+
+const navMenu = [
+  {
+    name: "Home",
+    route: "/",
+    icon: BiHome,
+  },
+  {
+    name: "Search",
+    route: "/search",
+    icon: BiSearch,
+  },
+  {
+    name: "Your Library",
+    route: "/library",
+    icon: BiLibrary,
+  },
+];
+
+const musicMenu = [
+  {
+    name: "Create Playlist",
+    route: "/",
+    icon: RiPlayListAddFill,
+  },
+  {
+    name: "Liked Songs",
+    route: "/",
+    icon: MdFavorite,
+  },
+];
+
+const playList = new Array(30)
+  .fill(1)
+  .map((_, i) => ({ name: `Playlist ${i}` }));
+
+const sideBar = () => {
+  return (
+    <Box
+      width="100%"
+      height="calc(100vh - 100px)"
+      bg="black"
+      paddingX="5px"
+      color="gray"
+    >
+      <Box paddingY="20px" height="100%">
+        <Box width="120px" marginBottom="20px" paddingX="20px">
+          <Image src={logo} />
+        </Box>
+
+        <Box marginBottom="30px">
+          <List spacing={2}>
+            {navMenu.map((item) => (
+              <ListItem paddingX="20px" fontSize="16px" key={item.name}>
+                <LinkBox>
+                  <Link href={item.route} passHref>
+                    <LinkOverlay>
+                      <ListIcon
+                        as={item.icon}
+                        color="gray.500"
+                        marginRight="20px"
+                        fontSize={20}
+                      />
+                      {item.name}
+                    </LinkOverlay>
+                  </Link>
+                </LinkBox>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
+        <Box>
+          <List spacing={2}>
+            {musicMenu.map((item) => (
+              <ListItem paddingX="20px" fontSize="16px" key={item.name}>
+                <LinkBox>
+                  <Link href={item.route} passHref>
+                    <LinkOverlay>
+                      <ListIcon
+                        as={item.icon}
+                        color="gray.500"
+                        marginRight="20px"
+                        fontSize={20}
+                      />
+                      {item.name}
+                    </LinkOverlay>
+                  </Link>
+                </LinkBox>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
+        <Divider color="gray.800" marginTop={4} />
+
+        <Box height="45%" overflowY="auto" marginTop={4}>
+          <List spacing={2}>
+            {playList.map((item) => (
+              <ListItem paddingX="20px" fontSize="16px" key={item.name}>
+                <LinkBox>
+                  <Link href="/" passHref>
+                    <LinkOverlay>{item.name}</LinkOverlay>
+                  </Link>
+                </LinkBox>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default sideBar;
