@@ -63,7 +63,7 @@ const SideBar = () => {
     >
       <Box paddingY="20px" height="100%">
         <Box width="120px" marginBottom="20px" paddingX="20px">
-          <Image src={logo} />
+          <Image src={logo} height="80px" width="80px" />
         </Box>
 
         <Box marginBottom="30px">
