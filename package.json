@@ -64,9 +64,7 @@
     "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
-    "**/*.{html,js}": 
-    
-    [
+    "**/*.{html,js,json}": [
       "prettier --write"
     ]
   }
