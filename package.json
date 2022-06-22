@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "husky install",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -62,12 +61,11 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --config ./.prettierrc.js --write"
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
     ],
-    "**/*.{css,scss,md,html,json}": [
-      "prettier --config ./.prettierrc.js --write"
+    "src/**/*.{html,js}": [
+      "prettier --write"
     ]
   }
 }
