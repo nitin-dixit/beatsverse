@@ -9,5 +9,10 @@ export default function fetcher(
       "Content-Type": "application/json",
     },
     body: data ? JSON.stringify(data) : undefined,
+  }).then((res) => {
+    if (res.status > 399 && res.status < 200) {
+      throw new Error();
+    }
+    return res.json();
   });
 }

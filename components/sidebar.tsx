@@ -13,6 +13,7 @@ import { BiSearch, BiLibrary, BiHome } from "react-icons/bi";
 import { RiPlayListAddFill } from "react-icons/ri";
 import { MdFavorite } from "react-icons/md";
 import logo from "../public/logo.png";
+import { usePlaylist } from "../lib/hooks";
 
 const navMenu = [
   {
@@ -45,11 +46,13 @@ const musicMenu = [
   },
 ];
 
-const playList = new Array(30)
-  .fill(1)
-  .map((_, i) => ({ name: `Playlist ${i}` }));
+// const playList = new Array(30)
+//   .fill(1)
+//   .map((_, i) => ({ name: `Playlist ${i}` }));
 
-const sideBar = () => {
+const SideBar = () => {
+  const { playLists } = usePlaylist();
+
   return (
     <Box
       width="100%"
@@ -111,8 +114,8 @@ const sideBar = () => {
 
         <Box height="45%" overflowY="auto" marginTop={4}>
           <List spacing={2}>
-            {playList.map((item) => (
-              <ListItem paddingX="20px" fontSize="16px" key={item.name}>
+            {playLists.map((item) => (
+              <ListItem paddingX="20px" fontSize="16px" key={item.id}>
                 <LinkBox>
                   <Link href="/" passHref>
                     <LinkOverlay>{item.name}</LinkOverlay>
@@ -127,4 +130,4 @@ const sideBar = () => {
   );
 };
 
-export default sideBar;
+export default SideBar;
