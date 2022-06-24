@@ -58,8 +58,6 @@ const SideBar = () => {
     return 0;
   });
 
-  console.log(sortedPlayLists);
-
   return (
     <Box
       width="100%"
