@@ -48,10 +48,17 @@ const musicMenu = [
 
 // const playList = new Array(30)
 //   .fill(1)
-//   .map((_, i) => ({ name: `Playlist ${i}` }));
+//   .map((_, i) => ({ name: `Playlist ${i+1}` }));
 
 const SideBar = () => {
   const { playLists } = usePlaylist();
+  const sortedPlayLists = [...playLists].sort((a, b) => {
+    if (Number(a.name.split(" ")[1]) < Number(b.name.split(" ")[1])) return -1;
+    if (Number(a.name.split(" ")[1]) > Number(b.name.split(" ")[1])) return 1;
+    return 0;
+  });
+
+  console.log(sortedPlayLists);
 
   return (
     <Box
@@ -114,7 +121,7 @@ const SideBar = () => {
 
         <Box height="45%" overflowY="auto" marginTop={4}>
           <List spacing={2}>
-            {playLists.map((item) => (
+            {sortedPlayLists.map((item) => (
               <ListItem paddingX="20px" fontSize="16px" key={item.id}>
                 <LinkBox>
                   <Link href="/" passHref>

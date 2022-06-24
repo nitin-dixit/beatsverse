@@ -52,6 +52,7 @@ const AuthForm = ({ mode }: { mode: "signin" | "signup" }) => {
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>
                   <Input
+                    autoComplete="email"
                     type="email"
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -59,6 +60,9 @@ const AuthForm = ({ mode }: { mode: "signin" | "signup" }) => {
                 <FormControl id="password">
                   <FormLabel>Password</FormLabel>
                   <Input
+                    autoComplete={
+                      mode === "signin" ? "current-password" : "new-password"
+                    }
                     type="password"
                     onChange={(e) => setPassword(e.target.value)}
                   />
