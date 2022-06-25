@@ -32,7 +32,7 @@ const Playlist = ({ playList }) => {
       roundImage={false}
       isLoaded
     >
-      <SongsTable />
+      <SongsTable songs={playList.songs} />
     </GradientLayout>
   );
 };
