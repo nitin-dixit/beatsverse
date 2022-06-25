@@ -1,4 +1,5 @@
 import { GradientLayout } from "../../components/gradientLayout";
+import SongsTable from "../../components/songsTable";
 import { validateToken } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 
@@ -31,7 +32,7 @@ const Playlist = ({ playList }) => {
       roundImage={false}
       isLoaded
     >
-      hi
+      <SongsTable />
     </GradientLayout>
   );
 };

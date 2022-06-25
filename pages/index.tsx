@@ -5,11 +5,28 @@ import { GradientLayout } from "../components/gradientLayout";
 import { useGetUser } from "../lib/hooks";
 import prisma from "../lib/prisma";
 
+const getRandColor = () => {
+  const colors = [
+    "red",
+    "green",
+    "gray",
+    "cyan",
+    "purple",
+    "teal",
+    "blue",
+    "orange",
+    "yellow",
+    "pink",
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
+
 const Home: NextPage = ({ artists }) => {
+  const color = getRandColor();
   const { user, isLoaded } = useGetUser();
   return (
     <GradientLayout
-      color="purple"
+      color={color}
       subtitle="profile"
       title={`${user?.firstName} ${user?.lastName}`}
       desc={`${user?.playListsCount} public playlist`}

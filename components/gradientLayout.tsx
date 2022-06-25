@@ -18,7 +18,11 @@ export const GradientLayout = ({
       overflowY="auto"
       bgGradient={`linear(${color}.500 0%, ${color}.600 15%, ${color}.700 40%, rgba(0,0,0,.95) 75%)`}
     >
-      <Flex bg={`${color}.600`} padding="40px" align="end">
+      <Flex
+        bgGradient={`linear(${color}.500 0%, ${color}.600 15%, ${color}.700 40%, rgba(0,0,0,.1) 95%)`}
+        padding="40px"
+        align="end"
+      >
         <Box padding="20px">
           <Image
             boxSize="160px"
