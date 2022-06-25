@@ -121,11 +121,17 @@ const SideBar = () => {
         <Box height="45%" overflowY="auto" marginTop={4}>
           <SkeletonText isLoaded={isLoaded} fadeDuration={4}>
             <List spacing={2}>
-              {sortedPlayLists.map((item) => (
-                <ListItem paddingX="20px" fontSize="16px" key={item.id}>
+              {sortedPlayLists.map((playlist) => (
+                <ListItem paddingX="20px" fontSize="16px" key={playlist.id}>
                   <LinkBox>
-                    <Link href="/" passHref>
-                      <LinkOverlay>{item.name}</LinkOverlay>
+                    <Link
+                      href={{
+                        pathname: "/playlist/[id]",
+                        query: { id: playlist.id },
+                      }}
+                      passHref
+                    >
+                      <LinkOverlay>{playlist.name}</LinkOverlay>
                     </Link>
                   </LinkBox>
                 </ListItem>
