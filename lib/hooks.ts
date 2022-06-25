@@ -8,6 +8,7 @@ export const useGetUser = () => {
     user: data,
     isError: error,
     isLoading: !data && !error,
+    isLoaded: !error,
   };
 };
 
@@ -18,5 +19,6 @@ export const usePlaylist = () => {
     playLists: (data as any) || [],
     isLoading: !data && !error,
     isError: error,
+    isLoaded: !error,
   };
 };

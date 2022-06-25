@@ -2,17 +2,20 @@ import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Avatar } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { GradientLayout } from "../components/gradientLayout";
+import { useGetUser } from "../lib/hooks";
 import prisma from "../lib/prisma";
 
 const Home: NextPage = ({ artists }) => {
+  const { user, isLoaded } = useGetUser();
   return (
     <GradientLayout
       color="purple"
       subtitle="profile"
-      title="Nitin Dixit"
-      desc="15 public playlists"
+      title={`${user?.firstName} ${user?.lastName}`}
+      desc={`${user?.playListsCount} public playlist`}
       image="https://pbs.twimg.com/profile_images/1528623590928658433/1_UmKsuf_400x400.jpg"
       roundImage
+      isLoaded={isLoaded}
     >
       <Box color="gray.200" paddingX="50px">
         <Box marginBottom="40px">

@@ -6,6 +6,7 @@ import {
   List,
   ListIcon,
   ListItem,
+  SkeletonText,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +52,7 @@ const musicMenu = [
 //   .map((_, i) => ({ name: `Playlist ${i+1}` }));
 
 const SideBar = () => {
-  const { playLists } = usePlaylist();
+  const { playLists, isLoaded } = usePlaylist();
   const sortedPlayLists = [...playLists].sort((a, b) => {
     if (Number(a.name.split(" ")[1]) < Number(b.name.split(" ")[1])) return -1;
     if (Number(a.name.split(" ")[1]) > Number(b.name.split(" ")[1])) return 1;
@@ -118,17 +119,19 @@ const SideBar = () => {
         <Divider color="gray.800" marginTop={4} />
 
         <Box height="45%" overflowY="auto" marginTop={4}>
-          <List spacing={2}>
-            {sortedPlayLists.map((item) => (
-              <ListItem paddingX="20px" fontSize="16px" key={item.id}>
-                <LinkBox>
-                  <Link href="/" passHref>
-                    <LinkOverlay>{item.name}</LinkOverlay>
-                  </Link>
-                </LinkBox>
-              </ListItem>
-            ))}
-          </List>
+          <SkeletonText isLoaded={isLoaded} fadeDuration={4}>
+            <List spacing={2}>
+              {sortedPlayLists.map((item) => (
+                <ListItem paddingX="20px" fontSize="16px" key={item.id}>
+                  <LinkBox>
+                    <Link href="/" passHref>
+                      <LinkOverlay>{item.name}</LinkOverlay>
+                    </Link>
+                  </LinkBox>
+                </ListItem>
+              ))}
+            </List>
+          </SkeletonText>
         </Box>
       </Box>
     </Box>
