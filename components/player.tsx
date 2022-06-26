@@ -1,5 +1,13 @@
-import { Box, Center } from "@chakra-ui/layout";
-import { ButtonGroup, IconButton, Tooltip } from "@chakra-ui/react";
+import { Box, Center, Flex, Text } from "@chakra-ui/layout";
+import {
+  ButtonGroup,
+  IconButton,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
+  Tooltip,
+} from "@chakra-ui/react";
 // import ReactHowler from "react-howler";
 import {
   MdOutlinePauseCircleFilled,
@@ -14,6 +22,7 @@ const Player = () => {
   return (
     <Box>
       <Box>{/* <ReactHowler /> */}</Box>
+
       <Center color="gray.600">
         <ButtonGroup>
           <Tooltip label="Enable Shuffle" openDelay={300}>
@@ -83,6 +92,32 @@ const Player = () => {
           </Tooltip>
         </ButtonGroup>
       </Center>
+
+      <Box color="gray.600">
+        <Flex justify="center" align="center">
+          <Box w="10%" textAlign="left">
+            <Text fontSize="xs">1:32</Text>
+          </Box>
+          <Box w="80%">
+            <RangeSlider
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-label={["min", "max"]}
+              step={0.1}
+              min={0}
+              max={321}
+              id="player-range"
+            >
+              <RangeSliderTrack bg="gray.800">
+                <RangeSliderFilledTrack bg="gray.600" />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} />
+            </RangeSlider>
+          </Box>
+          <Box w="10%" textAlign="right">
+            <Text fontSize="xs">3:32</Text>
+          </Box>
+        </Flex>
+      </Box>
     </Box>
   );
 };
