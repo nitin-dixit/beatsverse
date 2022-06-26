@@ -8,6 +8,7 @@ import {
   RangeSliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
+import { useState } from "react";
 // import ReactHowler from "react-howler";
 import {
   MdOutlinePauseCircleFilled,
@@ -19,9 +20,27 @@ import {
 } from "react-icons/md";
 
 const Player = () => {
+  const [playing, setPlaying] = useState(true);
+  //   const [index, setIndex] = useState(0);
+  //   const [seek, setSeek] = useState(0.0);
+  const [repeat, setRepeat] = useState(false);
+  const [shuffle, setShuffle] = useState(false);
+  //   const [duration, setDuration] = useState(0.0);
+
+  const setPlayState = (value: boolean) => {
+    setPlaying(value);
+  };
+
+  const onShuffle = () => {
+    setShuffle((state) => !state);
+  };
+
+  const onRepeat = () => {
+    setRepeat((state) => !state);
+  };
   return (
     <Box>
-      <Box>{/* <ReactHowler /> */}</Box>
+      <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
 
       <Center color="gray.600">
         <ButtonGroup>
@@ -33,6 +52,8 @@ const Player = () => {
               fontSize="24px"
               icon={<MdShuffle />}
               _hover={{ color: "white" }}
+              color={shuffle ? "white" : "gray.600"}
+              onClick={onShuffle}
             />
           </Tooltip>
 
@@ -47,27 +68,31 @@ const Player = () => {
             />
           </Tooltip>
 
-          <Tooltip label="Play" openDelay={300}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="play"
-              fontSize="50px"
-              color="white"
-              icon={<MdOutlinePlayCircleFilled />}
-            />
-          </Tooltip>
-
-          <Tooltip label="Pause" openDelay={300}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="pause"
-              fontSize="50px"
-              color="white"
-              icon={<MdOutlinePauseCircleFilled />}
-            />
-          </Tooltip>
+          {playing ? (
+            <Tooltip label="Pause" openDelay={300}>
+              <IconButton
+                outline="none"
+                variant="link"
+                aria-label="pause"
+                fontSize="50px"
+                color="white"
+                icon={<MdOutlinePauseCircleFilled />}
+                onClick={() => setPlayState(false)}
+              />
+            </Tooltip>
+          ) : (
+            <Tooltip label="Play" openDelay={300}>
+              <IconButton
+                outline="none"
+                variant="link"
+                aria-label="play"
+                fontSize="50px"
+                color="white"
+                icon={<MdOutlinePlayCircleFilled />}
+                onClick={() => setPlayState(true)}
+              />
+            </Tooltip>
+          )}
 
           <Tooltip label="Next" openDelay={300}>
             <IconButton
@@ -88,6 +113,8 @@ const Player = () => {
               fontSize="24px"
               icon={<MdRepeat />}
               _hover={{ color: "white" }}
+              color={repeat ? "white" : "gray.600"}
+              onClick={onRepeat}
             />
           </Tooltip>
         </ButtonGroup>

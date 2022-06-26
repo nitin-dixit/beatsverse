@@ -10,7 +10,7 @@ const playerLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
       </Box>
       <Box marginLeft="250px">
-        <Box height="calc(100vh - 100px)">{children}</Box>
+        <Box height="calc(100vh - 90px)">{children}</Box>
       </Box>
       <Box position="absolute" left="0" bottom="0" margin="0" padding="0">
         <PlayerBar />

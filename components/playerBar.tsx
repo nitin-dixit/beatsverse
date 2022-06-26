@@ -3,7 +3,7 @@ import Player from "./player";
 
 const PlayerBar = () => {
   return (
-    <Box h="100px" w="100vw" bg="gray.900">
+    <Box h="90px" w="100vw" bg="#181818">
       <Flex align="center" justify-items="space-between">
         <Box padding="20px" color="white" w="30%">
           <Text fontSize="large" w="30%">
