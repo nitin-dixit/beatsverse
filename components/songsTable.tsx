@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/layout";
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { BsFillPlayFill } from "react-icons/bs";
+import { GrPlayFill } from "react-icons/gr";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { formatDate, formatTime } from "../lib/formatters";
 
@@ -9,9 +9,12 @@ const SongsTable = ({ songs }) => {
     <Box bg="transparent" color="white" paddingX="40px">
       <Box padding="10px" mb="20px">
         <IconButton
-          icon={<BsFillPlayFill fontSize="30px" />}
+          icon={<GrPlayFill fontSize="18px" />}
           aria-label="play-button"
-          colorScheme="green"
+          bgColor="Green"
+          _hover={{
+            bgColor: "#1df068",
+          }}
           size="lg"
           isRound
         />
@@ -28,7 +31,7 @@ const SongsTable = ({ songs }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {songs.map((song, i) => (
+          {songs.map((song, i: number) => (
             <Tr
               sx={{
                 transition: "all .3s ",

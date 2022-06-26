@@ -28,7 +28,7 @@ const Playlist = ({ playList }) => {
       title={playList.name}
       image={`https://picsum.photos/200/?random=${id}`}
       subtitle="playlist"
-      desc={`${playList.songs.length} songs here`}
+      desc={`${playList.songs.length} songs`}
       roundImage={false}
       isLoaded
     >
@@ -38,11 +38,21 @@ const Playlist = ({ playList }) => {
 };
 
 export const getServerSideProps = async ({ query, req }) => {
-  const { id } = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN);
+  let user;
+  try {
+    user = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN);
+  } catch (e) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/signin",
+      },
+    };
+  }
   const [playList] = await prisma.playlist.findMany({
     where: {
       id: query.id,
-      userId: id,
+      userId: user.id,
     },
 
     include: {

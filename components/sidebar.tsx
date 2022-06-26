@@ -78,10 +78,9 @@ const SideBar = () => {
               <ListItem paddingX="20px" fontSize="16px" key={item.name}>
                 <LinkBox>
                   <Link href={item.route} passHref>
-                    <LinkOverlay>
+                    <LinkOverlay _hover={{ color: "white" }}>
                       <ListIcon
                         as={item.icon}
-                        color="gray.500"
                         marginRight="20px"
                         fontSize={20}
                       />
@@ -100,12 +99,12 @@ const SideBar = () => {
               <ListItem paddingX="20px" fontSize="16px" key={item.name}>
                 <LinkBox>
                   <Link href={item.route} passHref>
-                    <LinkOverlay>
+                    <LinkOverlay _hover={{ color: "white" }}>
                       <ListIcon
                         as={item.icon}
-                        color="gray.500"
                         marginRight="20px"
                         fontSize={20}
+                        _hover={{ color: "white" }}
                       />
                       {item.name}
                     </LinkOverlay>
@@ -131,7 +130,9 @@ const SideBar = () => {
                       }}
                       passHref
                     >
-                      <LinkOverlay>{playlist.name}</LinkOverlay>
+                      <LinkOverlay _hover={{ color: "white" }}>
+                        {playlist.name}
+                      </LinkOverlay>
                     </Link>
                   </LinkBox>
                 </ListItem>

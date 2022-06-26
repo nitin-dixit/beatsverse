@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { SkeletonText, Image } from "@chakra-ui/react";
+import React from "react";
 
 export const GradientLayout = ({
   color,
@@ -10,16 +11,24 @@ export const GradientLayout = ({
   desc,
   roundImage,
   isLoaded,
+}: {
+  color: string;
+  children: React.ReactNode;
+  title: string;
+  image: string;
+  subtitle: string;
+  desc: string;
+  roundImage: boolean;
+  isLoaded: boolean;
 }) => {
-  console.log(isLoaded);
   return (
     <Box
       height="100%"
       overflowY="auto"
-      bgGradient={`linear(${color}.500 0%, ${color}.600 15%, ${color}.700 40%, rgba(0,0,0,.95) 75%)`}
+      bgGradient={`linear(${color}.500 0%, ${color}.600 15%, ${color}.700 40%, rgba(2,2,2,.95) 75%)`}
     >
       <Flex
-        bgGradient={`linear(${color}.500 0%, ${color}.600 15%, ${color}.700 40%, rgba(0,0,0,.1) 95%)`}
+        bgGradient={`linear(${color}.400 0%, ${color}.500 15%, ${color}.600 40%, rgba(2,2,2,.1) 95%)`}
         padding="40px"
         align="end"
       >
