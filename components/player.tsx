@@ -8,6 +8,7 @@ import {
   RangeSliderTrack,
   Tooltip,
 } from "@chakra-ui/react";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { useState } from "react";
 // import ReactHowler from "react-howler";
 import {
@@ -19,17 +20,21 @@ import {
   MdSkipPrevious,
 } from "react-icons/md";
 
-const Player = () => {
-  const [playing, setPlaying] = useState(true);
-  //   const [index, setIndex] = useState(0);
-  //   const [seek, setSeek] = useState(0.0);
+// eslint-disable-next-line no-unused-vars
+const Player = ({ songs, activeSong }: any) => {
+  const playing = useStoreState((state: any) => state.isPlaying);
+  const setPlayState = useStoreActions(
+    (state: any) => state.changeSongPlayingStatus
+  );
+
+  const handlePlaying = (isPlaying: boolean) => {
+    setPlayState(isPlaying);
+  };
+  // const [index, setIndex] = useState(0);
+  // const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
-  //   const [duration, setDuration] = useState(0.0);
-
-  const setPlayState = (value: boolean) => {
-    setPlaying(value);
-  };
+  // const [duration, setDuration] = useState(0.0);
 
   const onShuffle = () => {
     setShuffle((state) => !state);
@@ -38,13 +43,14 @@ const Player = () => {
   const onRepeat = () => {
     setRepeat((state) => !state);
   };
+
   return (
     <Box>
-      <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
+      {/* <Box><ReactHowler playing={playing} src={activeSong?.url} /></Box> */}
 
-      <Center color="gray.600">
+      <Center color="gray.600" alignItems="center">
         <ButtonGroup>
-          <Tooltip label="Enable Shuffle" openDelay={300}>
+          <Tooltip label="Enable Shuffle" openDelay={1000}>
             <IconButton
               outline="none"
               variant="link"
@@ -57,7 +63,7 @@ const Player = () => {
             />
           </Tooltip>
 
-          <Tooltip label="Previous" openDelay={300}>
+          <Tooltip label="Previous" openDelay={1000}>
             <IconButton
               outline="none"
               variant="link"
@@ -69,32 +75,32 @@ const Player = () => {
           </Tooltip>
 
           {playing ? (
-            <Tooltip label="Pause" openDelay={300}>
+            <Tooltip label="Pause" openDelay={1000}>
               <IconButton
                 outline="none"
                 variant="link"
                 aria-label="pause"
-                fontSize="50px"
+                fontSize="32px"
                 color="white"
                 icon={<MdOutlinePauseCircleFilled />}
-                onClick={() => setPlayState(false)}
+                onClick={() => handlePlaying(false)}
               />
             </Tooltip>
           ) : (
-            <Tooltip label="Play" openDelay={300}>
+            <Tooltip label="Play" openDelay={1000}>
               <IconButton
                 outline="none"
                 variant="link"
                 aria-label="play"
-                fontSize="50px"
+                fontSize="32px"
                 color="white"
                 icon={<MdOutlinePlayCircleFilled />}
-                onClick={() => setPlayState(true)}
+                onClick={() => handlePlaying(true)}
               />
             </Tooltip>
           )}
 
-          <Tooltip label="Next" openDelay={300}>
+          <Tooltip label="Next" openDelay={1000}>
             <IconButton
               outline="none"
               variant="link"
@@ -105,7 +111,7 @@ const Player = () => {
             />
           </Tooltip>
 
-          <Tooltip label="Repeat" openDelay={300}>
+          <Tooltip label="Repeat" openDelay={1000}>
             <IconButton
               outline="none"
               variant="link"

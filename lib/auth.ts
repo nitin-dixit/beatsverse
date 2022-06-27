@@ -16,15 +16,12 @@ export const validateRoute = (handler: Function) => {
           throw new Error("User not found");
         }
       } catch (error) {
-        res.status(401);
-        res.json({ error: "Not authorized" });
-        return;
+        return res.status(401).json({ error: "Not authorized" });
       }
       return handler(req, res, user);
     }
 
-    res.status(401);
-    res.json({ error: "Not authorized" });
+    return res.status(401).json({ error: "Not authorized" });
   };
 };
 
