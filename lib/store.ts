@@ -3,7 +3,7 @@ import { action, createStore } from "easy-peasy";
 export const store = createStore({
   activeSongs: [],
   activeSong: null,
-  isPlaying: true,
+  isPlaying: false,
   changeActiveSongs: action((state: any, payload) => {
     state.activeSongs = payload;
   }),
