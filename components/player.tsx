@@ -25,8 +25,7 @@ import { useStore } from "../lib/store";
 
 interface SoundRefType extends ReactHowler {
   // eslint-disable-next-line no-unused-vars
-  seek: () => number;
-  // eslint-disable-next-line no-unused-vars
+  seek: (id?: number) => number;
   duration: () => number;
 }
 
@@ -49,7 +48,7 @@ const Player = ({ songs, activeSong }: any) => {
 
     if (playing && !isSeeking) {
       const f = () => {
-        setSeek(soundRef.current?.seek());
+        setSeek(soundRef.current?.seek()!);
         timerId = requestAnimationFrame(f);
       };
 
@@ -112,7 +111,7 @@ const Player = ({ songs, activeSong }: any) => {
 
   const onLoad = () => {
     const songDuration = soundRef.current?.duration();
-    setDuration(songDuration);
+    setDuration(songDuration!);
   };
 
   const onSeek = (e: any[]) => {
