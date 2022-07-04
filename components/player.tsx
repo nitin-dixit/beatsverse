@@ -1,40 +1,76 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/layout";
 import {
+  Box,
   ButtonGroup,
+  Center,
+  Flex,
   IconButton,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
-  Tooltip,
+  Text,
 } from "@chakra-ui/react";
-import { useStoreActions, useStoreState } from "easy-peasy";
-import { useState } from "react";
-// import ReactHowler from "react-howler";
+import { useEffect, useRef, useState } from "react";
+import ReactHowler from "react-howler";
 import {
   MdOutlinePauseCircleFilled,
   MdOutlinePlayCircleFilled,
-  MdRepeat,
+  MdOutlineRepeat,
   MdShuffle,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
+import { formatTime } from "../lib/formatters";
+import { useStore } from "../lib/store";
 
-// eslint-disable-next-line no-unused-vars
+interface SoundRefType extends ReactHowler {
+  // eslint-disable-next-line no-unused-vars
+  seek: () => number;
+  // eslint-disable-next-line no-unused-vars
+  duration: () => number;
+}
+
 const Player = ({ songs, activeSong }: any) => {
-  const playing = useStoreState((state: any) => state.isPlaying);
-  const setPlayState = useStoreActions(
-    (state: any) => state.changeSongPlayingStatus
+  const [playing, setPlaying] = useState(true);
+  const [index, setIndex] = useState(
+    songs.findIndex((s: { id: string }) => s.id === activeSong.id)
   );
-
-  const handlePlaying = (isPlaying: boolean) => {
-    setPlayState(isPlaying);
-  };
-  // const [index, setIndex] = useState(0);
-  // const [seek, setSeek] = useState(0.0);
+  const [seek, setSeek] = useState(0.0);
+  const [isSeeking, setIsSeeking] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
-  // const [duration, setDuration] = useState(0.0);
+  const [duration, setDuration] = useState(0.0);
+  const soundRef = useRef<SoundRefType>(null);
+  const repeatRef = useRef(repeat);
+  const setActiveSong = useStore((state: any) => state.changeActiveSong);
+
+  useEffect(() => {
+    let timerId: number;
+
+    if (playing && !isSeeking) {
+      const f = () => {
+        setSeek(soundRef.current?.seek());
+        timerId = requestAnimationFrame(f);
+      };
+
+      timerId = requestAnimationFrame(f);
+      return () => cancelAnimationFrame(timerId);
+    }
+
+    cancelAnimationFrame(timerId!);
+  }, [playing, isSeeking]);
+
+  useEffect(() => {
+    setActiveSong(songs[index]);
+  }, [index, setActiveSong, songs]);
+
+  useEffect(() => {
+    repeatRef.current = repeat;
+  }, [repeat]);
+
+  const setPlayState = (value: boolean) => {
+    setPlaying(value);
+  };
 
   const onShuffle = () => {
     setShuffle((state) => !state);
@@ -44,101 +80,135 @@ const Player = ({ songs, activeSong }: any) => {
     setRepeat((state) => !state);
   };
 
+  const prevSong = () => {
+    setIndex((state: number) => {
+      return state ? state - 1 : songs.length - 1;
+    });
+  };
+
+  const nextSong = () => {
+    setIndex((state: number) => {
+      if (shuffle) {
+        const next = Math.floor(Math.random() * songs.length);
+
+        if (next === state) {
+          return nextSong();
+        }
+        return next;
+      }
+
+      return state === songs.length - 1 ? 0 : state + 1;
+    });
+  };
+
+  const onEnd = () => {
+    if (repeatRef.current) {
+      setSeek(0);
+      soundRef.current?.seek(0);
+    } else {
+      nextSong();
+    }
+  };
+
+  const onLoad = () => {
+    const songDuration = soundRef.current?.duration();
+    setDuration(songDuration);
+  };
+
+  const onSeek = (e: any[]) => {
+    setSeek(parseFloat(e[0]));
+    soundRef.current?.seek(e[0]);
+  };
+
   return (
     <Box>
-      {/* <Box><ReactHowler playing={playing} src={activeSong?.url} /></Box> */}
-
-      <Center color="gray.600" alignItems="center">
+      <Box>
+        <ReactHowler
+          playing={playing}
+          src={activeSong?.url}
+          ref={soundRef}
+          onLoad={onLoad}
+          onEnd={onEnd}
+        />
+      </Box>
+      <Center color="gray.600">
         <ButtonGroup>
-          <Tooltip label="Enable Shuffle" openDelay={1000}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="shuffle"
-              fontSize="24px"
-              icon={<MdShuffle />}
-              _hover={{ color: "white" }}
-              color={shuffle ? "white" : "gray.600"}
-              onClick={onShuffle}
-            />
-          </Tooltip>
-
-          <Tooltip label="Previous" openDelay={1000}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="skip previous"
-              fontSize="24px"
-              icon={<MdSkipPrevious />}
-              _hover={{ color: "white" }}
-            />
-          </Tooltip>
-
+          <IconButton
+            outline="none"
+            variant="link"
+            aria-label="shuffle"
+            fontSize="24px"
+            color={shuffle ? "white" : "gray.600"}
+            onClick={onShuffle}
+            icon={<MdShuffle />}
+          />
+          <IconButton
+            outline="none"
+            variant="link"
+            aria-label="skip"
+            fontSize="24px"
+            icon={<MdSkipPrevious />}
+            onClick={prevSong}
+          />
           {playing ? (
-            <Tooltip label="Pause" openDelay={1000}>
-              <IconButton
-                outline="none"
-                variant="link"
-                aria-label="pause"
-                fontSize="32px"
-                color="white"
-                icon={<MdOutlinePauseCircleFilled />}
-                onClick={() => handlePlaying(false)}
-              />
-            </Tooltip>
+            <IconButton
+              outline="none"
+              variant="link"
+              aria-label="pause"
+              fontSize="40px"
+              color="white"
+              icon={<MdOutlinePauseCircleFilled />}
+              onClick={() => setPlayState(false)}
+            />
           ) : (
-            <Tooltip label="Play" openDelay={1000}>
-              <IconButton
-                outline="none"
-                variant="link"
-                aria-label="play"
-                fontSize="32px"
-                color="white"
-                icon={<MdOutlinePlayCircleFilled />}
-                onClick={() => handlePlaying(true)}
-              />
-            </Tooltip>
+            <IconButton
+              outline="none"
+              variant="link"
+              aria-label="play"
+              fontSize="40px"
+              color="white"
+              icon={<MdOutlinePlayCircleFilled />}
+              onClick={() => setPlayState(true)}
+            />
           )}
 
-          <Tooltip label="Next" openDelay={1000}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="skip next"
-              fontSize="24px"
-              icon={<MdSkipNext />}
-              _hover={{ color: "white" }}
-            />
-          </Tooltip>
-
-          <Tooltip label="Repeat" openDelay={1000}>
-            <IconButton
-              outline="none"
-              variant="link"
-              aria-label="repeat"
-              fontSize="24px"
-              icon={<MdRepeat />}
-              _hover={{ color: "white" }}
-              color={repeat ? "white" : "gray.600"}
-              onClick={onRepeat}
-            />
-          </Tooltip>
+          <IconButton
+            outline="none"
+            variant="link"
+            aria-label="next"
+            fontSize="24px"
+            icon={<MdSkipNext />}
+            onClick={nextSong}
+          />
+          <IconButton
+            outline="none"
+            variant="link"
+            aria-label="repeat"
+            fontSize="24px"
+            color={repeat ? "white" : "gray.600"}
+            onClick={onRepeat}
+            icon={<MdOutlineRepeat />}
+          />
         </ButtonGroup>
       </Center>
 
       <Box color="gray.600">
         <Flex justify="center" align="center">
-          <Box w="10%" textAlign="left">
-            <Text fontSize="xs">1:32</Text>
+          <Box width="10%">
+            <Text fontSize="xs">{formatTime(seek)}</Text>
           </Box>
-          <Box w="80%">
+          <Box width="80%">
             <RangeSlider
               // eslint-disable-next-line jsx-a11y/aria-proptypes
               aria-label={["min", "max"]}
               step={0.1}
               min={0}
-              max={321}
               id="player-range"
+              max={duration ? (duration.toFixed(2) as unknown as number) : 0}
+              onChange={onSeek}
+              value={[seek]}
+              onChangeStart={() => setIsSeeking(true)}
+              onChangeEnd={() => setIsSeeking(false)}
             >
               <RangeSliderTrack bg="gray.800">
                 <RangeSliderFilledTrack bg="gray.600" />
@@ -146,8 +216,8 @@ const Player = ({ songs, activeSong }: any) => {
               <RangeSliderThumb index={0} />
             </RangeSlider>
           </Box>
-          <Box w="10%" textAlign="right">
-            <Text fontSize="xs">3:32</Text>
+          <Box width="10%" textAlign="right">
+            <Text fontSize="xs">{formatTime(duration)}</Text>
           </Box>
         </Flex>
       </Box>

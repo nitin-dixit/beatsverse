@@ -1,21 +1,17 @@
 import { Box } from "@chakra-ui/layout";
 import { IconButton, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { GrPlayFill } from "react-icons/gr";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { useStoreActions } from "easy-peasy";
+import { GrPlayFill } from "react-icons/gr";
 import { formatDate, formatTime } from "../lib/formatters";
+import { useStore } from "../lib/store";
 
 const SongsTable = ({ songs }: any) => {
-  const playSongs = useStoreActions((store: any) => store.changeActiveSongs);
-  const setActiveSong = useStoreActions((store: any) => store.changeActiveSong);
-  const isPlaying = useStoreActions(
-    (store: any) => store.changeSongPlayingStatus
-  );
+  const playSongs = useStore((state: any) => state.changeActiveSongs);
+  const setActiveSong = useStore((state: any) => state.changeActiveSong);
 
-  const handlePlay = (activeSong?) => {
+  const handlePlay = (activeSong?: any) => {
     setActiveSong(activeSong || songs[0]);
     playSongs(songs);
-    isPlaying(true);
   };
 
   return (

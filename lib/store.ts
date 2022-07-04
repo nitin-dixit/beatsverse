@@ -1,16 +1,17 @@
-import { action, createStore } from "easy-peasy";
+import create from "zustand";
 
-export const store = createStore({
+interface BearState {
+  activeSongs: [];
+  activeSong: null;
+  // eslint-disable-next-line no-unused-vars
+  changeActiveSongs: (payload: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  changeActiveSong: (payload: any) => void;
+}
+
+export const useStore = create<BearState>((set) => ({
   activeSongs: [],
   activeSong: null,
-  isPlaying: false,
-  changeActiveSongs: action((state: any, payload) => {
-    state.activeSongs = payload;
-  }),
-  changeActiveSong: action((state: any, payload) => {
-    state.activeSong = payload;
-  }),
-  changeSongPlayingStatus: action((state: any, payload) => {
-    state.isPlaying = payload;
-  }),
-});
+  changeActiveSongs: (payload: any) => set(() => ({ activeSongs: payload })),
+  changeActiveSong: (payload: any) => set(() => ({ activeSong: payload })),
+}));
