@@ -21,7 +21,7 @@ const getRandColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const Home: NextPage = ({ artists }) => {
+const Home: NextPage = ({ artists }: any) => {
   const color = getRandColor();
   const { user, isLoaded } = useGetUser();
   return (
@@ -42,7 +42,7 @@ const Home: NextPage = ({ artists }) => {
           <Text fontSize="sm">only visible to you</Text>
         </Box>
         <Flex gap="15px">
-          {artists.map((artist) => (
+          {artists.map((artist: any) => (
             <Flex
               bg="blackAlpha.500"
               borderRadius="4px"

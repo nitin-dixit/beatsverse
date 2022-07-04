@@ -19,7 +19,7 @@ const getRandColor = (id: number) => {
   return colors[id - 1] || colors[Math.floor(Math.random() * colors.length)];
 };
 
-const Playlist = ({ playList }) => {
+const Playlist = ({ playList }: any) => {
   const id = playList.name.split(" ")[1];
   const color = getRandColor(id);
   return (
@@ -37,10 +37,13 @@ const Playlist = ({ playList }) => {
   );
 };
 
-export const getServerSideProps = async ({ query, req }) => {
+interface JwtPayload {
+  id: string;
+}
+export const getServerSideProps = async ({ query, req }: any) => {
   let user;
   try {
-    user = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN);
+    user = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN) as JwtPayload;
   } catch (e) {
     return {
       redirect: {
