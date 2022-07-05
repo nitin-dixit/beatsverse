@@ -47,10 +47,6 @@ const musicMenu = [
   },
 ];
 
-// const playList = new Array(30)
-//   .fill(1)
-//   .map((_, i) => ({ name: `Playlist ${i+1}` }));
-
 const SideBar = () => {
   const { playLists, isLoaded } = usePlaylist();
   const sortedPlayLists = [...playLists].sort((a, b) => {

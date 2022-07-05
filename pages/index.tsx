@@ -5,7 +5,7 @@ import { GradientLayout } from "../components/gradientLayout";
 import { useGetUser } from "../lib/hooks";
 import prisma from "../lib/prisma";
 
-const getRandColor = () => {
+const getBGColor = () => {
   const colors = [
     "red",
     "green",
@@ -22,7 +22,7 @@ const getRandColor = () => {
 };
 
 const Home: NextPage = ({ artists }: any) => {
-  const color = getRandColor();
+  const color = getBGColor();
   const { user, isLoaded } = useGetUser();
   return (
     <GradientLayout

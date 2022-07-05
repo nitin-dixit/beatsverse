@@ -21,7 +21,7 @@ export const validateRoute = (handler: Function) => {
       return handler(req, res, user);
     }
 
-    return res.status(401).json({ error: "Not authorized" });
+    return res.status(401).json({ error: "Not Authorized" });
   };
 };
 

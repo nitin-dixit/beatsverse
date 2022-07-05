@@ -3,7 +3,7 @@ import SongsTable from "../../components/songsTable";
 import { validateToken } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 
-const getRandColor = (id: number) => {
+const getBGColor = (id: number) => {
   const colors = [
     "red",
     "green",
@@ -21,7 +21,7 @@ const getRandColor = (id: number) => {
 
 const Playlist = ({ playList }: any) => {
   const id = playList.name.split(" ")[1];
-  const color = getRandColor(id);
+  const color = getBGColor(id);
   return (
     <GradientLayout
       color={color}
@@ -37,13 +37,10 @@ const Playlist = ({ playList }: any) => {
   );
 };
 
-interface JwtPayload {
-  id: string;
-}
 export const getServerSideProps = async ({ query, req }: any) => {
   let user;
   try {
-    user = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN) as JwtPayload;
+    user = validateToken(req.cookies.BEATSVERSE_ACCESS_TOKEN);
   } catch (e) {
     return {
       redirect: {

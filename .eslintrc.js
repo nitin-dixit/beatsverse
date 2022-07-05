@@ -3,7 +3,7 @@ module.exports = {
   plugins: ["react", "@typescript-eslint", "prettier"],
   env: {
     browser: true,
-    es2022: true,
+    es2021: true,
     node: true,
   },
   parser: "@typescript-eslint/parser",
